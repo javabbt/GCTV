@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="infos.generationchange.gctv">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme1">
+        <activity
+            android:name="infos.generationchange.gctv.MainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="infos.generationchange.gctv.SplashScreen"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="infos.generationchange.gctv.categories.EBoutique" android:screenOrientation="portrait"/>
+        <activity android:name="infos.generationchange.gctv.categories.GctvKamtoNews" />
+        <activity android:name="infos.generationchange.gctv.categories.GctvBusiness" />
+        <activity android:name="infos.generationchange.gctv.categories.GctvArts" />
+        <activity android:name="infos.generationchange.gctv.categories.GctvSports" />
+        <activity android:name="infos.generationchange.gctv.categories.GctvEducation" />
+        <activity
+            android:name="infos.generationchange.gctv.SingleItem"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+            android:label="@string/title_activity_single_item"
+            android:theme="@style/AppTheme1" />
+        <activity android:name="infos.generationchange.gctv.SearchActivity"></activity>
+    </application>
+
+</manifest>

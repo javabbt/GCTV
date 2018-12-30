@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="infos.generationchange.gctv">
+
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/icon"
@@ -9,11 +11,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme1">
         <activity
-            android:name="infos.generationchange.gctv.MainActivity"
+            android:name=".MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="infos.generationchange.gctv.SplashScreen"
+            android:name=".SplashScreen"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
             <intent-filter>
@@ -22,18 +24,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="infos.generationchange.gctv.categories.EBoutique" android:screenOrientation="portrait"/>
-        <activity android:name="infos.generationchange.gctv.categories.GctvKamtoNews" />
-        <activity android:name="infos.generationchange.gctv.categories.GctvBusiness" />
-        <activity android:name="infos.generationchange.gctv.categories.GctvArts" />
-        <activity android:name="infos.generationchange.gctv.categories.GctvSports" />
-        <activity android:name="infos.generationchange.gctv.categories.GctvEducation" />
         <activity
-            android:name="infos.generationchange.gctv.SingleItem"
+            android:name=".categories.EBoutique"
+            android:screenOrientation="portrait" />
+        <activity android:name=".categories.GctvKamtoNews" />
+        <activity android:name=".categories.GctvBusiness" />
+        <activity android:name=".categories.GctvArts" />
+        <activity android:name=".categories.GctvSports" />
+        <activity android:name=".categories.GctvEducation" />
+        <activity
+            android:name=".SingleItem"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:label="@string/title_activity_single_item"
             android:theme="@style/AppTheme1" />
-        <activity android:name="infos.generationchange.gctv.SearchActivity"></activity>
+        <activity android:name=".SearchActivity" />
+
+        <activity android:name=".utils.FullScreenActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+            android:screenOrientation="landscape"/>
+
     </application>
 
 </manifest>

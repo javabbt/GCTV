@@ -26,6 +26,15 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.android.exoplayer:exoplayer-hls:2.8.3'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.8.3'//yo
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.8.3'
+    implementation 'com.google.android.exoplayer:exoplayer-smoothstreaming:2.8.3'
+
+
+
+
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.8.0'
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:9.0.1'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'//test
     implementation 'com.github.bumptech.glide:glide:4.6.1'

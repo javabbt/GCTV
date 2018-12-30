@@ -33,7 +33,7 @@
                     android:layout_height="30dp" />
 
                 <TextView
-                    android:text="e-Boutique"
+                    android:text="Boutique"
                     android:textSize="17sp"
                     android:textColor="@color/black"
                     android:layout_centerVertical="true"

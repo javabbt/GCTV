@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private int categorie;
 
     private static final String domain = "http://dev.sdkgames.com";
+
+    private static final String TAG = "RecyclerViewAdapter";
 
     public RecyclerViewAdapter(List<MainModel> list, Context context, int category) {
         this.list = list;
@@ -106,7 +109,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 case 0:
                     youtubeLink = ((NewsModel) item).getYoutubeLink();
 
-                    if(youtubeLink != null){
+                    if(!youtubeLink.equals(false)){
                         play.setVisibility(View.VISIBLE);
                     }
 
@@ -144,7 +147,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                     youtubeLink = ((NewsModel) item).getYoutubeLink();
 
-                    if(youtubeLink != null){
+                    if(!youtubeLink.equals("false")){
                         play.setVisibility(View.VISIBLE);
                     }
 
@@ -181,7 +184,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 case 2:
                     youtubeLink = ((NewsModel) item).getYoutubeLink();
 
-                    if(youtubeLink != null){
+                    if(!youtubeLink.equals("false")){
                         play.setVisibility(View.VISIBLE);
                     }
 
@@ -219,7 +222,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                     youtubeLink = ((NewsModel) item).getYoutubeLink();
 
-                    if(youtubeLink != null){
+                    if(!youtubeLink.equals("false")){
                         play.setVisibility(View.VISIBLE);
                     }
 
@@ -258,7 +261,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                     youtubeLink = ((NewsModel) item).getYoutubeLink();
 
-                    if(youtubeLink != null){
+                    if(!youtubeLink.equals("false")){
                         play.setVisibility(View.VISIBLE);
                     }
 
@@ -297,7 +300,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                     youtubeLink = ((NewsModel) item).getYoutubeLink();
 
-                    if(youtubeLink != null){
+                    if(!youtubeLink.equals("false")){
                         play.setVisibility(View.VISIBLE);
                     }
 
@@ -336,7 +339,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                     youtubeLink = ((NewsModel) item).getYoutubeLink();
 
-                    if(youtubeLink != null){
+                    if(!youtubeLink.equals("false")){
                         play.setVisibility(View.VISIBLE);
                     }
 
@@ -374,7 +377,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                     youtubeLink = ((NewsModel) item).getYoutubeLink();
 
-                    if(youtubeLink != null){
+                    Log.d(TAG, "bind: youtube link : "+youtubeLink);
+
+                    if(!youtubeLink.equals("false")){
                         play.setVisibility(View.VISIBLE);
                     }
 
@@ -413,7 +418,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                     youtubeLink = ((NewsModel) item).getYoutubeLink();
 
-                    if(youtubeLink != null){
+                    if(!youtubeLink.equals("false")){
                         play.setVisibility(View.VISIBLE);
                     }
 

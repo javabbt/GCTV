@@ -63,7 +63,7 @@ public class SingleItem extends AppCompatActivity {
             finish();
         });
 
-        if(getIntent().getStringExtra("link") != null)
+        if(!getIntent().getStringExtra("link").equals("false"))
             play.setVisibility(View.VISIBLE);
 
         text.setText(getIntent().getStringExtra("description"));

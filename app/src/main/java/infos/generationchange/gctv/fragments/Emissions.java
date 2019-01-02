@@ -48,6 +48,8 @@ public class Emissions extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view  = inflater.inflate(R.layout.emissions , container , false);
         recylerView = view.findViewById(R.id.recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
+        recylerView.setLayoutManager(layoutManager);
         progressBar = view.findViewById(R.id.progress);
         enchantier = view.findViewById(R.id.enchantier);
         new FetchItems().execute();
@@ -77,8 +79,6 @@ public class Emissions extends Fragment {
         //executed after the background nodes fetching process is complete
         protected void onPostExecute(JSONArray result) {
             //get the ListView UI element
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
-            recylerView.setLayoutManager(layoutManager);
             //create the ArrayList to store the titles of nodes
             List<MainModel> listItems=new ArrayList<MainModel>();
             //iterate through JSON to read the title of nodes

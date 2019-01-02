@@ -105,17 +105,17 @@
 
     <include layout="@layout/content_single_item" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end|right"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
-        android:clickable="true"
-        android:elevation="0dp"
-        android:scaleType="center"
-        app:backgroundTint="@color/colorPrimary"
-        app:srcCompat="@drawable/share" />
+    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|end|right"-->
+        <!--android:layout_marginBottom="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:clickable="true"-->
+        <!--android:elevation="0dp"-->
+        <!--android:scaleType="center"-->
+        <!--app:backgroundTint="@color/colorPrimary"-->
+        <!--app:srcCompat="@drawable/share" />-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -83,16 +83,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return list.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView share, description;
+    class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView  description;
         private ImageView thumbNail;
         private ProgressBar progressBar;
         private CardView root;
         private ImageView play;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
-            share = itemView.findViewById(R.id.share);
             description = itemView.findViewById(R.id.description);
             description.setTypeface(tf);
             thumbNail = itemView.findViewById(R.id.thumbNailImage);
@@ -101,7 +100,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             play = itemView.findViewById(R.id.play);
         }
 
-        public void bind(final MainModel item) {
+        void bind(final MainModel item) {
 
             String youtubeLink;
 
@@ -109,7 +108,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 case 0:
                     youtubeLink = ((NewsModel) item).getYoutubeLink();
 
-                    if(!youtubeLink.equals(false)){
+                    if(!youtubeLink.equals("false")){
                         play.setVisibility(View.VISIBLE);
                     }
 
@@ -130,9 +129,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                 }
                             })
                             .into(thumbNail);
-                    share.setOnClickListener(v -> {
 
-                    });
                     root.setOnClickListener(v -> {
                         Intent i = new Intent(context , SingleItem.class);
                         i.putExtra("picture" , domain + ((NewsModel) item).getThumbNail());
@@ -168,9 +165,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                 }
                             })
                             .into(thumbNail);
-                    share.setOnClickListener(v -> {
 
-                    });
                     root.setOnClickListener(v -> {
                         Intent i = new Intent(context , SingleItem.class);
                         i.putExtra("picture" , domain + ((NewsModel) item).getThumbNail());
@@ -205,9 +200,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                 }
                             })
                             .into(thumbNail);
-                    share.setOnClickListener(v -> {
 
-                    });
                     root.setOnClickListener(v -> {
                         Intent i = new Intent(context , SingleItem.class);
                         i.putExtra("picture" , domain + ((NewsModel) item).getThumbNail());
@@ -244,9 +237,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                 }
                             })
                             .into(thumbNail);
-                    share.setOnClickListener(v -> {
 
-                    });
                     root.setOnClickListener(v -> {
                         Intent i = new Intent(context , SingleItem.class);
                         i.putExtra("picture" , domain + ((NewsModel) item).getThumbNail());
@@ -283,9 +274,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                 }
                             })
                             .into(thumbNail);
-                    share.setOnClickListener(v -> {
 
-                    });
                     root.setOnClickListener(v -> {
                         Intent i = new Intent(context , SingleItem.class);
                         i.putExtra("picture" , domain + ((NewsModel) item).getThumbNail());
@@ -322,9 +311,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                 }
                             })
                             .into(thumbNail);
-                    share.setOnClickListener(v -> {
 
-                    });
                     root.setOnClickListener(v -> {
                         Intent i = new Intent(context , SingleItem.class);
                         i.putExtra("picture" , domain + ((NewsModel) item).getThumbNail());
@@ -360,9 +347,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                 }
                             })
                             .into(thumbNail);
-                    share.setOnClickListener(v -> {
 
-                    });
                     root.setOnClickListener(v -> {
                         Intent i = new Intent(context , SingleItem.class);
                         i.putExtra("picture" , domain + ((NewsModel) item).getThumbNail());
@@ -401,9 +386,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                 }
                             })
                             .into(thumbNail);
-                    share.setOnClickListener(v -> {
 
-                    });
                     root.setOnClickListener(v -> {
                         Intent i = new Intent(context , SingleItem.class);
                         i.putExtra("picture" , domain + ((NewsModel) item).getThumbNail());
@@ -440,9 +423,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                 }
                             })
                             .into(thumbNail);
-                    share.setOnClickListener(v -> {
 
-                    });
                     root.setOnClickListener(v -> {
                         Intent i = new Intent(context , SingleItem.class);
                         i.putExtra("picture" , domain + ((NewsModel) item).getThumbNail());

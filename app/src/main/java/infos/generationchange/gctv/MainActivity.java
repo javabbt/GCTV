@@ -12,6 +12,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
@@ -35,13 +36,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+        if (android.os.Build.VERSION.SDK_INT >= 21)
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         viewPager = findViewById(R.id.viewpager);
         toolbar = findViewById(R.id.toolbar);
         toolbar.setContentInsetStartWithNavigation(0);
         setSupportActionBar(toolbar);
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
+        viewPager.setOffscreenPageLimit(3);
         tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setText(R.string.tv);

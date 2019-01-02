@@ -52,6 +52,8 @@ public class ALaUne extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view  = inflater.inflate(R.layout.a_la_une , container , false);
         recylerView = view.findViewById(R.id.recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
+        recylerView.setLayoutManager(layoutManager);
         progressBar = view.findViewById(R.id.progress);
         enchantier = view.findViewById(R.id.enchantier);
         new FetchItems().execute();
@@ -81,16 +83,14 @@ public class ALaUne extends Fragment {
         //executed after the background nodes fetching process is complete
         protected void onPostExecute(JSONArray result) {
             //get the ListView UI element
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
-            recylerView.setLayoutManager(layoutManager);
             //create the ArrayList to store the titles of nodes
             List<MainModel> listItems=new ArrayList<MainModel>();
             //iterate through JSON to read the title of nodes
             for(int i=0;i<result.length();i++){
                 try {
-                    String description = result.getJSONObject(i).getString("field_description_article").toString();
-                    String thumbNail = result.getJSONObject(i).getString("field_image_de_fond").toString();
-                    String youtubeLink = result.getJSONObject(i).getString("field_video_link").toString();
+                    String description = result.getJSONObject(i).getString("field_description_article");
+                    String thumbNail = result.getJSONObject(i).getString("field_image_de_fond");
+                    String youtubeLink = result.getJSONObject(i).getString("field_video_link");
                     Log.d(TAG, "onPostExecute: description : " +description+" thumbnail : "+thumbNail);
                     listItems.add(new NewsModel(thumbNail , description , youtubeLink));
                 } catch (Exception e) {

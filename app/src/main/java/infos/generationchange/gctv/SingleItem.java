@@ -43,16 +43,15 @@ public class SingleItem extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+        if (android.os.Build.VERSION.SDK_INT >= 21)
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         setContentView(R.layout.activity_single_item);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         title = toolbar.findViewById(R.id.title);
         title.setText(getIntent().getStringExtra("title"));
         back = findViewById(R.id.back);
         setSupportActionBar(toolbar);
-
         image = findViewById(R.id.image);
-
         play = findViewById(R.id.play);
 
         Glide.with(this).load(getIntent().getStringExtra("picture")).into(image);
@@ -113,17 +112,6 @@ public class SingleItem extends AppCompatActivity {
         });
     }
 
-    public static String extractYTId(String ytUrl) {
-        String vId = null;
-        Pattern pattern = Pattern.compile(
-                "^https?://.*(?:youtu.be/|v/|u/\\w/|embed/|watch?v=)([^#&?]*).*$",
-                Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(ytUrl);
-        if (matcher.matches()){
-            vId = matcher.group(1);
-        }
-        return vId;
-    }
 
     @Override
     public void onDestroy() {

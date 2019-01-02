@@ -40,13 +40,19 @@ public class GctvKamtoNews extends AppCompatActivity {
 
     private ProgressBar progressBar;
 
+    RecyclerView recyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gctv_kamto_news);
         toolbar = findViewById(R.id.toolbar);
+        recyclerView = findViewById(R.id.recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(GctvKamtoNews.this, RecyclerView.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
         setSupportActionBar(toolbar);
-        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+        if (android.os.Build.VERSION.SDK_INT >= 21)
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         enchantier = findViewById(R.id.enchantier);
         back = toolbar.findViewById(R.id.back);
         progressBar = findViewById(R.id.progress);
@@ -80,18 +86,15 @@ public class GctvKamtoNews extends AppCompatActivity {
         //executed after the background nodes fetching process is complete
         protected void onPostExecute(JSONArray result) {
             //get the ListView UI element
-            RecyclerView recyclerView = findViewById(R.id.recyclerView);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(GctvKamtoNews.this, RecyclerView.VERTICAL, false);
-            recyclerView.setLayoutManager(layoutManager);
             //create the ArrayList to store the titles of nodes
             List<MainModel> listItems=new ArrayList<MainModel>();
             //iterate through JSON to read the title of nodes
             for(int i=0;i<result.length();i++){
                 try {
-                    String description = result.getJSONObject(i).getString("field_description_article").toString();
-                    String thumbNail = result.getJSONObject(i).getString("field_image_de_fond").toString();
+                    String description = result.getJSONObject(i).getString("field_description_article");
+                    String thumbNail = result.getJSONObject(i).getString("field_image_de_fond");
                     Log.d(TAG, "onPostExecute: description : " +description+" thumbnail : "+thumbNail);
-                    String youtubeLink = result.getJSONObject(i).getString("field_video_link").toString();
+                    String youtubeLink = result.getJSONObject(i).getString("field_video_link");
                     listItems.add(new NewsModel(thumbNail , description , youtubeLink));
                 } catch (Exception e) {
                     Log.v("Error adding article", e.getMessage());

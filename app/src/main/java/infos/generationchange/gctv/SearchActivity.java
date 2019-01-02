@@ -40,7 +40,8 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+        if (android.os.Build.VERSION.SDK_INT >= 21)
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
 
         searchView = findViewById(R.id.searchview);
         recyclerView = findViewById(R.id.recycler);

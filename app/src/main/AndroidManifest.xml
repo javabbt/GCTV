@@ -8,6 +8,7 @@
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
+        android:hardwareAccelerated="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme1">
         <activity
@@ -20,7 +21,6 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -28,21 +28,14 @@
             android:name=".categories.EBoutique"
             android:screenOrientation="portrait" />
         <activity android:name=".categories.GctvKamtoNews" />
-        <activity android:name=".categories.GctvBusiness" />
-        <activity android:name=".categories.GctvArts" />
-        <activity android:name=".categories.GctvSports" />
-        <activity android:name=".categories.GctvEducation" />
         <activity
             android:name=".SingleItem"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:label="@string/title_activity_single_item"
             android:theme="@style/AppTheme1" />
         <activity android:name=".SearchActivity" />
-
         <activity android:name=".utils.FullScreenActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
             android:screenOrientation="landscape"/>
-
     </application>
-
 </manifest>

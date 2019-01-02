@@ -33,42 +33,42 @@
                     android:layout_weight="4.45">
 
                     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/parent_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#000000"
+                        android:visibility="invisible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:visibility="invisible"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.0"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/parent_view"
-                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:background="#000000">
+                        app:layout_constraintVertical_bias="0.0">
 
 
                         <com.google.android.exoplayer2.ui.PlayerView
                             android:id="@+id/videoplayer"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            app:resize_mode="fill"
+                            android:layout_gravity="center"
                             app:controller_layout_id="@layout/player_custom_control"
-                            android:layout_gravity="center" />
+                            app:resize_mode="fill" />
 
                         <ProgressBar
                             android:id="@+id/loading"
                             android:layout_width="70dp"
                             android:layout_height="70dp"
-                            android:layout_gravity="center"/>
+                            android:layout_gravity="center" />
 
                     </FrameLayout>
 
                     <ImageView
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/blur"
                         android:id="@+id/tv"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/blur" />
 
                     <ImageView
                         android:id="@+id/imageView"
@@ -140,13 +140,30 @@
             android:layout_weight="2.9"
             android:background="#263238">
 
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/important"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"
+                android:layout_marginTop="5dp"
+                android:background="#B71C1C"
+                android:gravity="left"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/dv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/important"
                 android:layout_marginLeft="18dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
                 android:text="Dernières Vidéos"
                 android:textColor="@color/white"
                 android:textSize="17sp"
@@ -170,7 +187,7 @@
                     <LinearLayout
                         android:id="@+id/one"
                         android:layout_width="match_parent"
-                        android:layout_height="90dp"
+                        android:layout_height="85dp"
                         android:orientation="horizontal"
                         android:weightSum="2">
 
@@ -211,20 +228,20 @@
 
 
                     <Button
-                        android:paddingLeft="10dp"
                         android:id="@+id/journaliste"
-                        android:background="#880E4F"
-                        android:lineSpacingExtra="-5dp"
-                        android:text="@string/gctv_journaliste_citoyen"
-                        android:textAllCaps="false"
-                        android:textSize="20sp"
-                        android:textAlignment="textStart"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="85dp"
                         android:layout_below="@id/one"
                         android:layout_marginTop="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="90dp" />
+                        android:background="#880E4F"
+                        android:lineSpacingExtra="-5dp"
+                        android:paddingLeft="10dp"
+                        android:text="@string/gctv_journaliste_citoyen"
+                        android:textAlignment="textStart"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
 
                 </RelativeLayout>

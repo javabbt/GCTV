@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,7 +86,8 @@ public class DirectAndTv extends Fragment {
     private ImageView imageView;
     private ImageView imageView5;
     private PlayerView playerView;
-    private Button eBoutique  , kamtoNews , journaliste;
+    private Button eBoutique, kamtoNews, journaliste;
+    private TextView important;
 
     private static final String TAG = "DirectAndTv";
 
@@ -104,21 +106,27 @@ public class DirectAndTv extends Fragment {
 
     private ImageView fullSCreen;
 
-    public DirectAndTv(){ }
+    private String hls_url;
+
+    public DirectAndTv() {
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view  = inflater.inflate(R.layout.tv , container , false);
+        View view = inflater.inflate(R.layout.tv, container, false);
         frameLayout = view.findViewById(R.id.parent_view);
 
         eBoutique = view.findViewById(R.id.eboutique);
         kamtoNews = view.findViewById(R.id.kamtonews);
         journaliste = view.findViewById(R.id.journaliste);
 
+        important = view.findViewById(R.id.important);
+
         tv = view.findViewById(R.id.tv);
 
         eBoutique.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity() , EBoutique.class));
+            startActivity(new Intent(getActivity(), EBoutique.class));
         });
 
         journaliste.setOnClickListener((View v) -> {
@@ -128,7 +136,7 @@ public class DirectAndTv extends Fragment {
         });
 
         kamtoNews.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity() , GctvKamtoNews.class));
+            startActivity(new Intent(getActivity(), GctvKamtoNews.class));
         });
 
 
@@ -148,6 +156,7 @@ public class DirectAndTv extends Fragment {
             }
         });
         new FetchItems().execute();
+        new FetchItems1().execute();
         return view;
     }
 
@@ -168,6 +177,7 @@ public class DirectAndTv extends Fragment {
             releasePlayer();
         }
     }
+
     @Override
     public void onStop() {
         super.onStop();
@@ -186,82 +196,217 @@ public class DirectAndTv extends Fragment {
         super.onStart();
         playerView = getView().findViewById(R.id.videoplayer);
         fullSCreen = playerView.findViewById(R.id.fullscreen_icon);
-
-        fullSCreen.setOnClickListener(v ->{
+        fullSCreen.setOnClickListener(v -> {
             playbackPosition = player.getCurrentPosition();
-            Intent  i  = new Intent(getActivity() , FullScreenActivity.class);
-            i.putExtra("time" , playbackPosition);
+            Intent i = new Intent(getActivity(), FullScreenActivity.class);
+            i.putExtra("time", playbackPosition);
             startActivity(i);
             getActivity().finish();
         });
+        new FetchItems2().execute();
+    }
 
-        loading = getView().findViewById(R.id.loading);
-        TrackSelection.Factory adaptiveTrackSelection = new AdaptiveTrackSelection.Factory(new DefaultBandwidthMeter());
-        player = ExoPlayerFactory.newSimpleInstance(
-                new DefaultRenderersFactory(getContext()),
-                new DefaultTrackSelector(adaptiveTrackSelection),
-                new DefaultLoadControl());
-        playerView.setPlayer(player);
-        DefaultBandwidthMeter defaultBandwidthMeter = new DefaultBandwidthMeter();
-        com.google.android.exoplayer2.upstream.DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getContext(),
-                Util.getUserAgent(getContext(), "GCTV"), defaultBandwidthMeter);
-        String hls_url = "https://5c213d823e63f.streamlock.net:1937/live/ngrp:GCTV.stream_all/manifest.mpd";
-        Uri uri = Uri.parse(hls_url);
-        Handler mainHandler = new Handler();
-        DashMediaSource dashMediaSource = new DashMediaSource(uri, dataSourceFactory,
-                new DefaultDashChunkSource.Factory(dataSourceFactory), mainHandler, null);
-        player.prepare(dashMediaSource);
-        player.addListener(new Player.EventListener() {
-            @Override
-            public void onTimelineChanged(Timeline timeline, Object manifest, int reason) {
+
+    private class FetchItems2 extends AsyncTask<String, Void, JSONArray> {
+        protected JSONArray doInBackground(String... params) {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpGet httpget = new HttpGet("http://dev.sdkgames.com/gctv/web/api/v01/gctv/streaming_url?_format=hal_json");
+            //set header to tell REST endpoint the request and response content types
+            httpget.setHeader("Accept", "application/json");
+            httpget.setHeader("Content-type", "application/json");
+            JSONArray json = new JSONArray();
+            try {
+                HttpResponse response = httpclient.execute(httpget);
+                //read the response and convert it into JSON array
+                json = new JSONArray(EntityUtils.toString(response.getEntity()));
+                //return the JSON array for post processing to onPostExecute function
+                return json;
+            } catch (Exception e) {
             }
-            @Override
-            public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
-            }
-            @Override
-            public void onLoadingChanged(boolean isLoading) {
-            }
-            @Override
-            public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-                switch (playbackState) {
-                    case ExoPlayer.STATE_READY:
-                        loading.setVisibility(View.GONE);
-                        break;
-                    case ExoPlayer.STATE_BUFFERING:
-                        loading.setVisibility(View.VISIBLE);
-                        break;
+            return json;
+        }
+
+        //executed after the background nodes fetching process is complete
+        protected void onPostExecute(JSONArray result) {
+            for (int i = 0; i < result.length(); i++) {
+                try {
+                    hls_url = result.getJSONObject(i).getString("field_gctv_streaming_link");
+                    if (hls_url == null) {
+                        Log.d(TAG, "onPostExecute: hls is null");
+                        hls_url = "https://5c213d823e63f.streamlock.net:1937/live/ngrp:GCTV.stream_all/manifest.mpd";
+                    }
+                    Log.d(TAG, "onPostExecute: hls url " + hls_url);
+                } catch (Exception e) {
+                    Log.v("Error adding article", e.getMessage());
                 }
             }
-            @Override
-            public void onRepeatModeChanged(int repeatMode) {
+            loading = getView().findViewById(R.id.loading);
+            TrackSelection.Factory adaptiveTrackSelection = new AdaptiveTrackSelection.Factory(new DefaultBandwidthMeter());
+            player = ExoPlayerFactory.newSimpleInstance(
+                    new DefaultRenderersFactory(getContext()),
+                    new DefaultTrackSelector(adaptiveTrackSelection),
+                    new DefaultLoadControl());
+            playerView.setPlayer(player);
+            DefaultBandwidthMeter defaultBandwidthMeter = new DefaultBandwidthMeter();
+            com.google.android.exoplayer2.upstream.DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getContext(),
+                    Util.getUserAgent(getContext(), "GCTV"), defaultBandwidthMeter);
+            Uri uri = Uri.parse(hls_url);
+            Handler mainHandler = new Handler();
+            DashMediaSource dashMediaSource = new DashMediaSource(uri, dataSourceFactory,
+                    new DefaultDashChunkSource.Factory(dataSourceFactory), mainHandler, new MediaSourceEventListener() {
+                @Override
+                public void onMediaPeriodCreated(int windowIndex, MediaSource.MediaPeriodId mediaPeriodId) {
+
+                }
+
+                @Override
+                public void onMediaPeriodReleased(int windowIndex, MediaSource.MediaPeriodId mediaPeriodId) {
+
+                }
+
+                @Override
+                public void onLoadStarted(int windowIndex, MediaSource.MediaPeriodId mediaPeriodId, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData) {
+
+                }
+
+                @Override
+                public void onLoadCompleted(int windowIndex, MediaSource.MediaPeriodId mediaPeriodId, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData) {
+
+                }
+
+                @Override
+                public void onLoadCanceled(int windowIndex, MediaSource.MediaPeriodId mediaPeriodId, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData) {
+
+                }
+
+                @Override
+                public void onLoadError(int windowIndex, MediaSource.MediaPeriodId mediaPeriodId, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData, IOException error, boolean wasCanceled) {
+
+                }
+
+                @Override
+                public void onReadingStarted(int windowIndex, MediaSource.MediaPeriodId mediaPeriodId) {
+
+                }
+
+                @Override
+                public void onUpstreamDiscarded(int windowIndex, MediaSource.MediaPeriodId mediaPeriodId, MediaLoadData mediaLoadData) {
+
+                }
+
+                @Override
+                public void onDownstreamFormatChanged(int windowIndex, MediaSource.MediaPeriodId mediaPeriodId, MediaLoadData mediaLoadData) {
+
+                }
+            });
+            player.prepare(dashMediaSource);
+            player.addListener(new Player.EventListener() {
+                @Override
+                public void onTimelineChanged(Timeline timeline, Object manifest, int reason) {
+                }
+
+                @Override
+                public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+                }
+
+                @Override
+                public void onLoadingChanged(boolean isLoading) {
+                }
+
+                @Override
+                public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                    switch (playbackState) {
+                        case ExoPlayer.STATE_READY:
+                            loading.setVisibility(View.GONE);
+                            break;
+                        case ExoPlayer.STATE_BUFFERING:
+                            loading.setVisibility(View.VISIBLE);
+                            break;
+                        case ExoPlayer.STATE_ENDED:
+                            player.seekTo(0);
+                            player.setPlayWhenReady(true);
+                            break;
+                    }
+                }
+
+                @Override
+                public void onRepeatModeChanged(int repeatMode) {
+                }
+
+                @Override
+                public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {
+                }
+
+                @Override
+                public void onPlayerError(ExoPlaybackException error) {
+                }
+
+                @Override
+                public void onPositionDiscontinuity(int reason) {
+                }
+
+                @Override
+                public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+                }
+
+                @Override
+                public void onSeekProcessed() {
+                }
+            });
+            playbackPosition = getActivity().getIntent().getLongExtra("time", 0);
+            if (playbackPosition != 0) {
+                player.setPlayWhenReady(playWhenReady);
+                frameLayout.setVisibility(View.VISIBLE);
+                imageView5.setVisibility(View.GONE);
+                imageView.setVisibility(View.GONE);
+                textView3.setVisibility(View.GONE);
+                tv.setVisibility(View.GONE);
             }
-            @Override
-            public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {
-            }
-            @Override
-            public void onPlayerError(ExoPlaybackException error) {
-            }
-            @Override
-            public void onPositionDiscontinuity(int reason) {
-            }
-            @Override
-            public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
-            }
-            @Override
-            public void onSeekProcessed() {
-            }
-        });
-        playbackPosition = getActivity().getIntent().getLongExtra("time" , 0);
-        if(playbackPosition != 0) {
-            player.setPlayWhenReady(playWhenReady);
-            frameLayout.setVisibility(View.VISIBLE);
-            imageView5.setVisibility(View.GONE);
-            imageView.setVisibility(View.GONE);
-            textView3.setVisibility(View.GONE);
-            tv.setVisibility(View.GONE);
+            player.seekTo(currentWindow, playbackPosition);
+            player.prepare(dashMediaSource, true, false);
         }
-        player.seekTo(currentWindow, playbackPosition);
-        player.prepare(dashMediaSource, true, false);
+
+    }
+
+    private class FetchItems1 extends AsyncTask<String, Void, JSONArray> {
+        protected JSONArray doInBackground(String... params) {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpGet httpget = new HttpGet("http://dev.sdkgames.com/gctv/web/api/v01/gctv/important_message?_format=hal_json");
+            //set header to tell REST endpoint the request and response content types
+            httpget.setHeader("Accept", "application/json");
+            httpget.setHeader("Content-type", "application/json");
+            JSONArray json = new JSONArray();
+            try {
+                HttpResponse response = httpclient.execute(httpget);
+                //read the response and convert it into JSON array
+                json = new JSONArray(EntityUtils.toString(response.getEntity()));
+                //return the JSON array for post processing to onPostExecute function
+                return json;
+            } catch (Exception e) {
+            }
+            return json;
+        }
+
+        //executed after the background nodes fetching process is complete
+        protected void onPostExecute(JSONArray result) {
+            String titre = null;
+            String breakingNews = null;
+            for (int i = 0; i < result.length(); i++) {
+                try {
+                    titre = result.getJSONObject(i).getString("title");
+                    breakingNews = result.getJSONObject(i).getString("field_infos_importante");
+                } catch (Exception e) {
+                    Log.v("Error adding article", e.getMessage());
+                }
+            }
+
+            if (breakingNews != null && !breakingNews.trim().equals("")) {
+                important.setVisibility(View.VISIBLE);
+                String text = "<b>" + titre + "</b>" + "<br>" + breakingNews;
+                important.setText(Html.fromHtml(text));
+            }
+        }
+
     }
 
     private class FetchItems extends AsyncTask<String, Void, JSONArray> {
@@ -278,7 +423,7 @@ public class DirectAndTv extends Fragment {
                 json = new JSONArray(EntityUtils.toString(response.getEntity()));
                 //return the JSON array for post processing to onPostExecute function
                 return json;
-            }catch (Exception e) {
+            } catch (Exception e) {
             }
             return json;
         }
@@ -286,14 +431,14 @@ public class DirectAndTv extends Fragment {
         //executed after the background nodes fetching process is complete
         protected void onPostExecute(JSONArray result) {
             String url = null;
-            for(int i=0;i<result.length();i++){
+            for (int i = 0; i < result.length(); i++) {
                 try {
-                    url = "http://dev.sdkgames.com"+result.getJSONObject(i).getString("field_image_direct").toString();
+                    url = "http://dev.sdkgames.com" + result.getJSONObject(i).getString("field_image_direct").toString();
                 } catch (Exception e) {
                     Log.v("Error adding article", e.getMessage());
                 }
             }
-            Log.d(TAG, "onPostExecute: url "+url);
+            Log.d(TAG, "onPostExecute: url " + url);
             Glide.with(getActivity()).load(url).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {

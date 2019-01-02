@@ -28,7 +28,8 @@ public class EBoutique extends AppCompatActivity {
         setContentView(R.layout.activity_gctv_news);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+        if (android.os.Build.VERSION.SDK_INT >= 21)
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         back = toolbar.findViewById(R.id.back);
         enchantier = findViewById(R.id.enchantier);
         back.setOnClickListener(v -> {

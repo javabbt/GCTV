@@ -10,9 +10,7 @@
     android:layout_height="match_parent"
     tools:context="infos.generationchange.gctv.MainActivity">
 
-
-
-        <androidx.appcompat.widget.Toolbar
+        <android.support.v7.widget.Toolbar
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
             app:contentInsetStartWithNavigation="0dp"
@@ -31,7 +29,7 @@
 
                 <ImageView
                     android:layout_centerVertical="true"
-                    android:src="@drawable/logo"
+                    app:srcCompat="@drawable/logo"
                     android:layout_width="40dp"
                     android:layout_height="40dp" />
 
@@ -47,10 +45,10 @@
 
             </RelativeLayout>
 
-        </androidx.appcompat.widget.Toolbar>
+        </android.support.v7.widget.Toolbar>
 
 
-    <androidx.drawerlayout.widget.DrawerLayout
+    <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -80,7 +78,7 @@
                 app:tabIndicatorColor="@color/tabindicator" />
 
 
-            <androidx.viewpager.widget.ViewPager
+            <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -101,7 +99,7 @@
 
 
 
-    </androidx.drawerlayout.widget.DrawerLayout>
+    </android.support.v4.widget.DrawerLayout>
 
 
 </LinearLayout>

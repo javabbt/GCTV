@@ -3,12 +3,16 @@
     package="infos.generationchange.gctv">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
+        android:name=".utils.GCTVAPP"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:hardwareAccelerated="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme1">
         <activity
@@ -21,6 +25,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -34,8 +39,11 @@
             android:label="@string/title_activity_single_item"
             android:theme="@style/AppTheme1" />
         <activity android:name=".SearchActivity" />
-        <activity android:name=".utils.FullScreenActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
-            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".utils.FullScreenActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity android:name=".PdfView" />
     </application>
+
 </manifest>

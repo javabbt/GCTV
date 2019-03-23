@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,17 +21,18 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.github.barteksc.pdfviewer.PDFView;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+import infos.generationchange.gctv.PdfView;
 import infos.generationchange.gctv.R;
 import infos.generationchange.gctv.SingleItem;
+import infos.generationchange.gctv.categories.PdfModel;
 import infos.generationchange.gctv.models.MainModel;
 import infos.generationchange.gctv.models.NewsModel;
 
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
@@ -40,6 +44,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private static final String domain = "http://dev.sdkgames.com";
 
     private static final String TAG = "RecyclerViewAdapter";
+
+
 
     public RecyclerViewAdapter(List<MainModel> list, Context context, int category) {
         this.list = list;
@@ -61,6 +67,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
              view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_news, parent, false);
         else if(categorie == 2)
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_business, parent, false);
+        else if(categorie == 10)
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_pdf, parent, false);
         else if(categorie == 3)
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_kamto_news, parent, false);
         else if(categorie == 4)
@@ -89,15 +97,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         private ProgressBar progressBar;
         private CardView root;
         private ImageView play;
+        private CircleImageView preview ;
+        private TextView title , description1;
 
         ViewHolder(View itemView) {
             super(itemView);
-            description = itemView.findViewById(R.id.description);
-            description.setTypeface(tf);
-            thumbNail = itemView.findViewById(R.id.thumbNailImage);
-            progressBar = itemView.findViewById(R.id.progress);
-            root = itemView.findViewById(R.id.root);
-            play = itemView.findViewById(R.id.play);
+            if(categorie == 10){
+                preview = itemView.findViewById(R.id.preview);
+                title = itemView.findViewById(R.id.title);
+                description1 = itemView.findViewById(R.id.description1);
+            }else{
+                description = itemView.findViewById(R.id.description);
+                description.setTypeface(tf);
+                thumbNail = itemView.findViewById(R.id.thumbNailImage);
+                progressBar = itemView.findViewById(R.id.progress);
+                root = itemView.findViewById(R.id.root);
+                play = itemView.findViewById(R.id.play);
+            }
+
         }
 
         void bind(final MainModel item) {
@@ -108,7 +125,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 case 0:
                     youtubeLink = ((NewsModel) item).getYoutubeLink();
 
-                    if(!youtubeLink.equals("false")){
+                    if(!youtubeLink.equals("empty") && !youtubeLink.equals("") && !youtubeLink.equals("false")){
                         play.setVisibility(View.VISIBLE);
                     }
 
@@ -138,13 +155,33 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         i.putExtra("link" , ((NewsModel) item).getYoutubeLink());
                         context.startActivity(i);
                     });
+                    break;
 
+                case 10:
+                    Glide.with(context).load(domain+((PdfModel)item).getField_image_de_fond()).into(preview);
+                    title.setText(((PdfModel)item).getTitle());
+                    description1.setText(((PdfModel)item).getField_description_article());
+                    preview.setOnClickListener(v -> {
+                        Intent i = new Intent(context , PdfView.class);
+                        i.putExtra("link" , domain+((PdfModel)item).getField_pdf_camerleak());
+                        context.startActivity(i);
+                    });
+                    title.setOnClickListener(v -> {
+                        Intent i = new Intent(context , PdfView.class);
+                        i.putExtra("link" , domain+((PdfModel)item).getField_pdf_camerleak());
+                        context.startActivity(i);
+                    });
+                    description1.setOnClickListener(v -> {
+                        Intent i = new Intent(context , PdfView.class);
+                        i.putExtra("link" , domain+((PdfModel)item).getField_pdf_camerleak());
+                        context.startActivity(i);
+                    });
                     break;
                 case 1:
 
                     youtubeLink = ((NewsModel) item).getYoutubeLink();
 
-                    if(!youtubeLink.equals("false")){
+                    if(!youtubeLink.equals("empty") && !youtubeLink.equals("") && !youtubeLink.equals("false")){
                         play.setVisibility(View.VISIBLE);
                     }
 
@@ -179,7 +216,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 case 2:
                     youtubeLink = ((NewsModel) item).getYoutubeLink();
 
-                    if(!youtubeLink.equals("false")){
+                    if(!youtubeLink.equals("empty") && !youtubeLink.equals("") && !youtubeLink.equals("false")){
                         play.setVisibility(View.VISIBLE);
                     }
 
@@ -215,7 +252,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                     youtubeLink = ((NewsModel) item).getYoutubeLink();
 
-                    if(!youtubeLink.equals("false")){
+                    if(!youtubeLink.equals("empty") && !youtubeLink.equals("") && !youtubeLink.equals("false")){
                         play.setVisibility(View.VISIBLE);
                     }
 
@@ -252,7 +289,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                     youtubeLink = ((NewsModel) item).getYoutubeLink();
 
-                    if(!youtubeLink.equals("false")){
+                    if(!youtubeLink.equals("empty") && !youtubeLink.equals("") && !youtubeLink.equals("false")){
                         play.setVisibility(View.VISIBLE);
                     }
 
@@ -289,7 +326,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                     youtubeLink = ((NewsModel) item).getYoutubeLink();
 
-                    if(!youtubeLink.equals("false")){
+                    if(!youtubeLink.equals("empty") && !youtubeLink.equals("") && !youtubeLink.equals("false")){
                         play.setVisibility(View.VISIBLE);
                     }
 
@@ -326,7 +363,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                     youtubeLink = ((NewsModel) item).getYoutubeLink();
 
-                    if(!youtubeLink.equals("false")){
+                    if(!youtubeLink.equals("empty") && !youtubeLink.equals("") && !youtubeLink.equals("false")){
                         play.setVisibility(View.VISIBLE);
                     }
 
@@ -364,7 +401,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                     Log.d(TAG, "bind: youtube link : "+youtubeLink);
 
-                    if(!youtubeLink.equals("false")){
+                    if(!youtubeLink.equals("empty") && !youtubeLink.equals("") && !youtubeLink.equals("false")){
                         play.setVisibility(View.VISIBLE);
                     }
 
@@ -401,7 +438,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                     youtubeLink = ((NewsModel) item).getYoutubeLink();
 
-                    if(!youtubeLink.equals("false")){
+                    if(!youtubeLink.equals("empty") && !youtubeLink.equals("") && !youtubeLink.equals("false")){
                         play.setVisibility(View.VISIBLE);
                     }
 

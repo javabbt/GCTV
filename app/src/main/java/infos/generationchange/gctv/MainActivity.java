@@ -3,22 +3,23 @@ package infos.generationchange.gctv;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
+import android.support.design.widget.TabLayout;;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
-import androidx.viewpager.widget.ViewPager;
+
 import infos.generationchange.gctv.fragments.DirectAndTv;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -29,7 +30,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
     private ImageView search;
-
     //720 / 576
 
     @Override
@@ -51,14 +51,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tabLayout.getTabAt(0).setText(R.string.tv);
         tabLayout.getTabAt(1).setText(R.string.alaune);
         tabLayout.getTabAt(2).setText(R.string.emissions);
-
         search = findViewById(R.id.search);
-
-
         search.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this , SearchActivity.class));
         });
-
         drawer = (DrawerLayout) findViewById(R.id.drawerLayout);
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
@@ -67,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.menu_black, getTheme());
                 toggle.setHomeAsUpIndicator(drawable);
             }
-
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -94,16 +89,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         assert navigationView != null;
         navigationView.setNavigationItemSelectedListener(this);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
 
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+            @Override
+            public void onPageSelected(int position) {
 
+            }
 
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -113,21 +117,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         DirectAndTv.player.setPlayWhenReady(false);
                 }
             }
-
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
             }
-
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-
         if (savedInstanceState == null) {
             navigationView.getMenu().performIdentifierAction(R.id.nav_camera,0);
         }
     }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -138,12 +138,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             finish();
         }
     }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-
         FragmentManager fm  = getSupportFragmentManager();
         Drawable drawable;
         switch(item.getItemId()) {
@@ -167,15 +165,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 toggle.setHomeAsUpIndicator(drawable);
                 System.exit(0);
                 break;
-
+            case R.id.send_remark:
+                drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.menu_black, getTheme());
+                toggle.setHomeAsUpIndicator(drawable);
+                openSendRemark();
+                break;
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerLayout);
         item.setChecked(true);
         assert drawer != null;
         drawer.closeDrawer(GravityCompat.START);
         return true;
-
     }
-
+    private void openSendRemark() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("plain/text");
+        intent.putExtra(Intent.EXTRA_EMAIL,new String[] { "gctvapp0@gmail.com" });
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Remarque liée a GCTV");
+        intent.putExtra(Intent.EXTRA_TEXT, "Entrez votre remarque");
+        startActivity(Intent.createChooser(intent, "envoyer par"));
+    }
 }

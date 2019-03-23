@@ -35,7 +35,7 @@
         android:layout_gravity="bottom|right"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/shrink"/>
+        app:srcCompat="@drawable/shrink"/>
 
 
 </FrameLayout>

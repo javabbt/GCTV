@@ -1,13 +1,12 @@
 package infos.generationchange.gctv.utils;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.TextView;
 
 import infos.generationchange.gctv.R;
@@ -15,11 +14,11 @@ import infos.generationchange.gctv.R;
 public class CustomDialog extends Dialog implements
         android.view.View.OnClickListener {
 
-    public Activity c;
+    public AppCompatActivity c;
     public Dialog d;
     public TextView yes, no;
 
-    public CustomDialog(Activity a) {
+    public CustomDialog(AppCompatActivity a) {
         super(a);
         // TODO Auto-generated constructor stub
         this.c = a;

@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.Toolbar
+        <android.support.v7.widget.Toolbar
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
             android:id="@+id/toolbar"
@@ -43,13 +43,13 @@
 
             </RelativeLayout>
 
-        </androidx.appcompat.widget.Toolbar>
+        </android.support.v7.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
 
 
-    <androidx.recyclerview.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
         android:layout_below="@id/appbar"
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
@@ -72,7 +72,7 @@
         <ImageView
             android:id="@+id/f"
             android:scaleType="centerCrop"
-            android:src="@drawable/enconstruction"
+            app:srcCompat="@drawable/enconstruction"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

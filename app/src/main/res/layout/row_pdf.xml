@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_centerVertical="true"
+        android:src="@drawable/blur"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:id="@+id/preview" />
+
+
+    <TextView
+        android:textStyle="bold"
+        android:maxLines="2"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:text="title"
+        android:id="@+id/title"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:layout_toRightOf="@id/preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <TextView
+        android:id="@+id/description1"
+        android:textSize="12sp"
+        android:maxLines="2"
+        android:text="description"
+        android:textColor="@color/white"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@id/preview"
+        android:layout_below="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

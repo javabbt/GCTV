@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.Toolbar
+        <android.support.v7.widget.Toolbar
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
             android:id="@+id/toolbar"
@@ -43,13 +43,13 @@
 
             </RelativeLayout>
 
-        </androidx.appcompat.widget.Toolbar>
+        </android.support.v7.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
 
 
-    <androidx.appcompat.widget.SearchView
+    <android.support.v7.widget.SearchView
         android:background="@drawable/editprofileitems"
         android:layout_width="match_parent"
         android:layout_below="@id/appbar"
@@ -58,7 +58,7 @@
         android:layout_margin="10dp"
         android:layout_height="35dp"/>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_below="@id/searchview"
         android:id="@+id/recycler"

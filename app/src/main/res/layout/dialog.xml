@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:text="GCTV compte sur vous, citoyens, pour couvrir les évènements autour de vous. Si vous voyez n'importe quoi, filmez ça avec votre téléphone-ci, et envoyer vos vidéos par www.wetranfer.com à patrice@generation-change.info, et à boris@generation-change.info. Merci!"
+        android:text="GCTV compte sur vous, citoyens, pour couvrir les évènements autour de vous. Si vous voyez n'importe quoi, filmez ça avec votre téléphone-ci, et envoyer vos vidéos gratuitement par www.wetranfer.com (en suivant ce lien) à patrice@generation-change.info et à angie@generation-change.info. Merci!"
         android:textColor="@color/black"
         android:textSize="15dp" />
 
